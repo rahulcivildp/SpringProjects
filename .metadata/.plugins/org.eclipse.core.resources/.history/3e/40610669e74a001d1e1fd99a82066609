@@ -1,0 +1,55 @@
+package com.shopme.admin.user;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.Rollback;
+
+import com.shopme.common.entity.Role;
+import com.shopme.common.entity.User;
+
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Rollback(false)
+public class UserRepositoryTest {
+	
+	@Autowired
+	private UserRepository repo;
+	
+	@Autowired
+	private TestEntityManager enityManager;
+	
+	@Test
+	public void testCreateUserWithOneRole() {
+		Role roleAdmin = enityManager.find(Role.class, 1);
+		User userNameHM = new User("rahulcivildp@gmail.com", "tanmay@111", "Tanmay", "Sarkar");
+		userNameHM.addRole(roleAdmin);
+		
+		User savedUser = repo.save(userNameHM);
+		assertThat(savedUser.getId()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void testCreateUserWithTwoRoles() {
+		User userAbu = new User("masadul@gmail.com", "abu2020", "Masadul", "sheik");
+		Role roleEditor = new Role(3);
+		Role roleAssistance = new Role(5);
+		userAbu.addRole(roleEditor);
+		userAbu.addRole(roleAssistance);
+		
+		User savedUser = repo.save(userAbu);
+		assertThat(savedUser.getId()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void testListAllUsers() {
+		Iterable<User> listUsers = repo.findAll();
+		listUsers.forEach(user -> System.out.println(user));
+	}
+}
