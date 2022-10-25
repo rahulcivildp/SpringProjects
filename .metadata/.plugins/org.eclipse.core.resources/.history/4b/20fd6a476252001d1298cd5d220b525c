@@ -1,0 +1,22 @@
+*.icon-white {color: white;}
+*.icon-silver {color: silver;}
+*.icon-green {color: green;}
+*.icon-dark {color: gray;}
+*.icon-black {color: black;}
+
+/* Font family */
+
+*.font-times { font-family: 'Playfair Display', serif;}
+
+*.styleLink {text-decoration: none;}
+*.styleLinkButton {
+	padding: 3px;
+    border-radius: 5px;
+    border: 1px solid #8080804d;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+}
+*.styleLinkButton:active {
+}
+
+
+*.width-auto {width: auto !important;}
