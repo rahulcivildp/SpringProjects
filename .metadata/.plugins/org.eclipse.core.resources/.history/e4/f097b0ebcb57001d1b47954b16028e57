@@ -1,0 +1,22 @@
+package com.shopme.admin.category;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.shopme.common.entity.Category;
+
+@Controller
+public class CategoryController {
+	
+	@Autowired
+	private CategoryRepository repo;
+	
+	@GetMapping("/categorySelection")
+	public String testCreateRootCategory() {
+		Category category = new Category("Computers");
+		Category savedCategory = repo.save(category);
+		
+		return "redirect:/users";
+	}
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('Welcome to Shopeme Admin home page')"></head>
+<body>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<div class="container-fluid">
+		<div th:replace="navigation :: nav_menu"></div>
+		<div>
+			<h2>Welcome to Shopping admin page</h2>
+			Welcome &nbsp; 
+			<a class="styleLink" th:href="@{/account}" sec:authentication="principal.fullName"></a>
+		</div>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+</body>
+</html>

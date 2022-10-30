@@ -3,6 +3,7 @@
 *.icon-green {color: green;}
 *.icon-dark {color: gray;}
 *.icon-black {color: black;}
+*.icon-warning {color: yellow;}
 
 /* Font family */
 
@@ -37,6 +38,8 @@
 
 *.width-auto {width: auto !important;}
 
+*.dropdown-menu-special{ left: 50% !important;}
+
 /* Responsive */
 @media only screen and (max-width: 600px) {
   *.media-hide { display: none;}
@@ -45,7 +48,7 @@
 }
 
 *.dropDown_position {inset: 0px 0px auto 81px !important;}
-*.dropDown_toggle_col { display: none;}
+*.dropDown_toggle_col { display: none !important;}
 
 @media screen and (max-width: 768px) {
 	div.full-details {display: none;}

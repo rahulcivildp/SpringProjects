@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CategoryRepositoryTest.testCreateRootCategory" project="ShopmeBackEnd" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.shopme.admin.user.category.CategoryRepositoryTest" time="0.319" displayname="CategoryRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.user.category.CategoryRepositoryTest]">
+    <testcase name="testCreateRootCategory" classname="com.shopme.admin.user.category.CategoryRepositoryTest" time="0.319" displayname="testCreateRootCategory()" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.user.category.CategoryRepositoryTest]/[method:testCreateRootCategory()]"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CategoryRepositoryTest.testPrintAllCategories" project="ShopmeBackEnd" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.shopme.admin.user.category.CategoryRepositoryTest" time="0.287" displayname="CategoryRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.user.category.CategoryRepositoryTest]">
+    <testcase name="testPrintAllCategories" classname="com.shopme.admin.user.category.CategoryRepositoryTest" time="0.287" displayname="testPrintAllCategories()" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.user.category.CategoryRepositoryTest]/[method:testPrintAllCategories()]"/>
+  </testsuite>
+</testrun>

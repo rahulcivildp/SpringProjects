@@ -14,8 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 
-
+import com.shopme.admin.ShopmeBackEndApplication;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
@@ -23,6 +24,7 @@ import com.shopme.common.entity.User;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
+@ContextConfiguration(classes = ShopmeBackEndApplication.class)
 public class UserRepositoryTest {
 	
 	@Autowired

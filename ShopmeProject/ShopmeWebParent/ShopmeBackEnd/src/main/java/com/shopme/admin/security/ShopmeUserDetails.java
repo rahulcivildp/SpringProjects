@@ -5,13 +5,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
+@SuppressWarnings("serial")
+@Component
+@AutoConfiguration
 public class ShopmeUserDetails implements UserDetails {
 
 	private User user;
@@ -41,6 +46,18 @@ public class ShopmeUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return user.getEmail();
+	}
+	
+	public void setFirstName(String firstName) {
+		this.user.setFirstName(firstName);
+	} 
+	
+	public void setLastName(String lastName) {
+		this.user.setLastName(lastName);
+	} 
+	
+	public String getFullName() {
+		return this.user.getFirstName() + " " + this.user.getLastName();
 	}
 
 	@Override

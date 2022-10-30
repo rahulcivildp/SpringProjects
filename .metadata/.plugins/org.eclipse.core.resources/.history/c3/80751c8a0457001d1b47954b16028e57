@@ -1,0 +1,11 @@
+package com.shopme.admin.category;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.shopme.common.entity.Category;
+
+@Configuration
+public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer>{
+
+}
