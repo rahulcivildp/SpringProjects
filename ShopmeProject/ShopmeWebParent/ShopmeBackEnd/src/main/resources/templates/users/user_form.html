@@ -80,7 +80,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="modalTitle">Warning</h4>
+						<h4 class="modal-title" id="modalTitle"></h4>
 						<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
@@ -101,6 +101,10 @@
 <script type="text/javascript">
 
 	moduleURL = "[[@{/users}]]";
+	
+	imageSize = 1024;
+	
+	sizeScale = "MB";
 	
 	function checkEmailUnique(form) {
 		url = "[[@{/users/check_email}]]";
@@ -127,7 +131,7 @@
 	
 	function showModelDialogue(title, message) {
 		if (message != null) {
-			$("#modalTitle").text(title);
+			$("#modalTitle").text(message);
 			$("#modalBody").text(message);
 			$("#modalDialogue").modal();
 		};

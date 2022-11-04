@@ -98,15 +98,16 @@
 						<td class="hideable-column">[[${user.email}]]</td>
 						<td>[[${user.firstName}]]</td>
 						<td>[[${user.lastName}]]</td>
-						<td>[[${user.roles}]]</td>
+						<td>
+							<th:block th:each="role : ${user.roles}">
+							<span class="badge bg-primary" >[[${role.name}]]</span>
+							</th:block>
+						</td>
 						<td>
 							<div th:replace="fragments :: user_enabled"></div>
 						</td>
 						<td>
-							<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit this user" th:href="@{'/users/edit/' + ${user.id}}"></a>
-							&nbsp; 
-							<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete this user" th:userId="${user.id}" th:href="@{'/users/delete/' + ${user.id}}" 
-							data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" ></a>
+							<div th:replace="fragments :: user_edit&delete"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -115,20 +116,15 @@
 		<div class="less-details">
 			<div th:each="user : ${listUsers}" class="row m-1">
 				<div class="col-5">
-					<i th:if="${user.photos == null}" class="fa fa-image-portrait fa-3x icon-silver"></i>
-					<img th:if="${user.photos != null}" alt="User thumbnail" th:src="@{${user.photosImagePath}}" width="135" height="150"/>
+					<div th:replace="fragments :: user_photos"></div>
 				</div>
 				<div class="col-7 mt-2">
 					<div>[[${user.fullName}]]</div>
 					<div>[[${user.roles}]]</div>
 					<div class="mt-3">
-						<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-2x icon-green styleLink" title="Deactivate" th:href="@{'/users/' + ${user.id} + '/enabled/false'}"></a>
-						<a th:if="${user.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark styleLink" title="Activate" th:href="@{'/users/' + ${user.id} + '/enabled/true'}"></a>
+						<div th:replace="fragments :: user_enabled"></div>
 						&nbsp; 
-						<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit this user" th:href="@{'/users/edit/' + ${user.id}}"></a>
-						&nbsp; 
-						<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete this user" th:userId="${user.id}" th:href="@{'/users/delete/' + ${user.id}}" 
-						data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" ></a>
+						<div th:replace="fragments :: user_edit&delete"></div>
 					</div>
 				</div>
 			</div>

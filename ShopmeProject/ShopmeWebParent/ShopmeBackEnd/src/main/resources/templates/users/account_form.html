@@ -55,7 +55,13 @@
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Assigned Roles:</label>
 					<div class="col-sm-8">
-						<span><b>[[${user.roles}]]</b></span>
+						<span>
+							<b>
+								<th:block th:each="role : ${user.roles}">
+								<span class="badge bg-primary" >[[${role.name}]]</span>
+								</th:block>
+							</b>
+						</span>
 					</div> 
 				</div>
 					

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testCreateGeneralSettings()" project="ShopmeBackEnd" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.shopme.admin.setting.SettingRepositoryTests" time="0.372" displayname="SettingRepositoryTests" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.setting.SettingRepositoryTests]">
+    <testcase name="testCreateGeneralSettings" classname="com.shopme.admin.setting.SettingRepositoryTests" time="0.372" displayname="testCreateGeneralSettings()" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.setting.SettingRepositoryTests]/[method:testCreateGeneralSettings()]"/>
+  </testsuite>
+</testrun>

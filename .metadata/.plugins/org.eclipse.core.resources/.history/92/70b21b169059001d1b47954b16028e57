@@ -1,0 +1,32 @@
+package com.shopme.admin.setting;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.shopme.common.entity.Setting;
+
+@Controller
+public class SettingController {
+
+	@Autowired
+	private SettingService service; 
+	
+	@Autowired
+	private CurrencyRepository currencyRepo;
+	
+	@Autowired
+	private SettingRepository settingRepo;
+	
+	@GetMapping("/settings")
+	public String listAll(Model model) {
+		List<Setting> listAllSettings = service.listAllSettings();
+		
+		model.addAttribute("listAllSettings", listAllSettings);
+		
+		return "settings/settings";
+	}
+}

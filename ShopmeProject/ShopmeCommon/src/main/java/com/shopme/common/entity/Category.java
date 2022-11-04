@@ -1,6 +1,8 @@
 package com.shopme.common.entity;
 
+import java.beans.Transient;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "categories")
@@ -37,17 +40,51 @@ public class Category {
 	
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<>();
+	
+	
 
 	public Category() {}
 	
 	public Category(Integer id) {
 		this.id = id;
 	}
-
+	
 	public Category(String name) {
 		this.name = name;
-		this.alias = name;
-		this.image = "default.png";
+	}
+
+	public static Category copyIdAndName(Category category) {
+		Category copyCategory = new Category();
+		copyCategory.setId(category.getId());
+		copyCategory.setName(category.getName());
+		
+		return copyCategory;
+	}
+	
+	public static Category copyIdAndName(Integer id, String name) {
+		Category copyCategory = new Category();
+		copyCategory.setId(id);
+		copyCategory.setName(name);
+		
+		return copyCategory;
+	}
+
+	public static Category copyFull(Category category) {
+		Category copyCategory = new Category();
+		copyCategory.setId(category.getId());
+		copyCategory.setName(category.getName());
+		copyCategory.setImage(category.getImage());
+		copyCategory.setAlias(category.getAlias());
+		copyCategory.setEnabled(category.isEnabled());
+		
+		return copyCategory;
+	}
+	
+	public static Category copyFull(Category category, String name) {
+		Category copyCategory = Category.copyFull(category);
+		copyCategory.setName(name);
+		
+		return copyCategory;
 	}
 	
 	public Category(String name, Category parent) {
@@ -111,5 +148,36 @@ public class Category {
 		this.children = children;
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+	
+	@Transient
+	public String getPhotosImagePath() {
+		if(id == null || image == null) {
+			return "/images/no-image.png";
+		}
+		return "/category-photos/" + this.id + "/" + this.image;
+	}
+
 	
 }

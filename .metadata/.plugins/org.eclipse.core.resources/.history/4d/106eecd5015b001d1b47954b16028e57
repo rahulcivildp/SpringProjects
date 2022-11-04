@@ -1,0 +1,31 @@
+package com.shopme.admin.brand;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+
+import com.shopme.admin.ShopmeBackEndApplication;
+import com.shopme.common.entity.Brand;
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Rollback(false)
+@ContextConfiguration(classes = ShopmeBackEndApplication.class)
+public class BrandRepositoryTests {
+	
+	@Autowired
+	private BrandRepositoy repo;
+	
+	@Autowired
+	private TestEntityManager enityManager;
+	
+	@Test
+	public void testCreateBrands() {
+		Brand acer = new Brand()
+	}
+}

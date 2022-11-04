@@ -1,0 +1,5 @@
+package com.shopme.admin.currency;
+
+public class CurrencyRepositoryTests {
+
+}

@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div th:fragment="content" th:remove="tag"></div>
+</body>
+</html>
