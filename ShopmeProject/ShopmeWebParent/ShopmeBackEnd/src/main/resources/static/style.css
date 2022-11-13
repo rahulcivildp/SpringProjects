@@ -10,8 +10,9 @@
 *.font-times { font-family: 'Playfair Display', serif;}
 
 /* <a> - style properties */
-
+*.disabledDiv {background-color: #E9ECEF;}
 *.styleLink {text-decoration: none;}
+*.styleLinkHover:hover {text-decoration: underline;}
 *.styleLinkButton {
 	width: auto;
 	color: #2c2c2ceb;
@@ -47,6 +48,11 @@
   *.dropDown_toggle_col { display: block !important;}
 }
 
+.dropdowns:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; // remove the gap so it doesn't close
+ }
+ 
 *.dropDown_position {inset: 0px 0px auto 81px !important;}
 *.dropDown_toggle_col { display: none !important;}
 

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<body>
+
+	<div class="container-fluid">
+		<div th:replace="navigation :: nav_menu"></div>
+		
+		<div>
+			<h1 class="text-center m-2">Manage Products | [[${pageTitle}]]</h1>
+		</div>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>
+		<form th:action="@{/products/save}" method="post" th:object="${product}" >
+			<div>
+				<ul class="nav nav-tabs" id="settingTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-bs-toggle="tab" href="#overview" role="tab">Overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#description" role="tab">Description</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#images" role="tab">Images</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#details" role="tab">Details</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#shipping" role="tab">Shipping</a>
+					</li>
+				</ul>
+				
+				<div class="tab-content">
+					<div class="tab-pane active p-3" id="overview" role="tabpanel">
+						<div th:replace="products/overview-fragments :: product_overview"></div>
+					</div>
+					<div class="tab-pane p-3" id="description" role="tabpanel">
+						<h2>Countries</h2>
+					</div>
+					<div class="tab-pane p-3" id="images" role="tabpanel">
+						<h2>States</h2>
+					</div>
+					<div class="tab-pane p-3" id="details" role="tabpanel">
+						<h2>Mail Server</h2>
+					</div>
+					<div class="tab-pane p-3" id="shipping" role="tabpanel">
+						<h2>Mail Templates</h2>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
+	<script type="text/javascript">
+	
+	moduleURL = "[[@{/products}]]";
+	
+	brandModuleURL = "[[@{/brands}]]";
+	
+	imageSize = 300;
+	
+	sizeScale = "MB";
+	
+	dropDownBrands = $("#brands");
+	dropDownCategories = $("#categories");
+	
+	$(document).ready(function(){
+		dropDownBrands.change(function(){
+			dropDownCategories.empty();
+			getCategories();
+		});
+		getCategories();
+	});
+	
+	function getCategories() {
+		brandId = dropDownBrands.val();
+		url = brandModuleURL + "/" + brandId + "/categories";
+		
+		$.get(url, function(responseJson) {
+			$.each(responseJson, function(index, category) {
+				$("<option>").val(category.id).text(category.name).appendTo(dropDownCategories);
+			});
+		})
+	};
+	
+	</script>
+</body>
+
+</html>

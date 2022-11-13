@@ -1,0 +1,98 @@
+	dropDownBrands = $("#brands");
+	dropDownCategories = $("#categories");
+	
+	$(document).ready(function(){
+		
+		$("#shortDescription").richText();
+		$("#fullDescription").richText();
+		
+		dropDownBrands.change(function(){
+			dropDownCategories.empty();
+			getCategories();
+		});
+		getCategories();
+		
+		
+		$("#extraImage-1").change(function() {
+			fileSize = this.files[0].size;
+			imageSizeShort = imageSizeExtra * 1024;
+			
+			if (fileSize > imageSizeShort) {
+				this.setCustomValidity("You must choose an image less than " + imageSizeShort + " " + sizeScaleExtra + "!");
+				this.reportValidity();
+			} else {
+				this.setCustomValidity("");
+				showImageExtraThumbnail(this);
+			}
+		})
+	});
+	
+	function showImageExtraThumbnail(fileInput) {
+		var file = fileInput.files[0];
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$("#extraThumbnail").attr("src", e.target.result);
+		}
+		
+		reader.readAsDataURL(file);
+		
+		addExtraImageSection();
+	}
+	
+	function addExtraImageSection() {
+		
+		html = `<div class="col border m-3 p-2">
+				<div><label class="mb-3">Extra Images: </label></div>
+				<div>
+					<input type="hidden" th:field="*{images}">
+					<img class="img-thumbnail img-fluid" id="extraThumbnail2" th:src="" alt="Photo Preview" style="max-width: 25% !important;"/>
+				</div>
+					<input type="file" name="extraImage-2" id="extraImage-2" accept="image/png, image/jpeg" class="mb-2"/>
+				<div>
+				</div>
+			</div>`;	
+		$("#divProductImages").append(html);
+	}
+	
+	function getCategories() {
+		brandId = dropDownBrands.val();
+		url = brandModuleURL + "/" + brandId + "/categories";
+		
+		$.get(url, function(responseJson) {
+			$.each(responseJson, function(index, category) {
+				$("<option>").val(category.id).text(category.name).appendTo(dropDownCategories);
+			});
+		})
+	};
+	
+	function checkNameUnique(form) {
+		url = "[[@{/products/check_name}]]";
+		productName = $("#name").val();
+		productId = $("#id").val();
+		csrfVal = $("input[name='_csrf']").val();
+		params = {id: productId, name: productName, _csrf: csrfVal};
+			
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+				form.submit();
+			} else if (response == "Duplicate") {
+				showModelDialogue("Warning! ", response + " is provided: " + productName);
+			} else {
+				showModelDialogue("Error", "Unknown response from server.");
+			}
+		}).fail(function(){
+			showModelDialogue("Warning! ", "Duplicate Name is provided: " + productName);
+		});
+		
+		return false;
+	};
+	
+	function showModelDialogue(title, message) {
+		if (message != null) {
+			$("#modalTitle").text(title);
+			$("#modalBody").text(message);
+			$("#modalDialogue").modal();
+		};
+	};/**
+ * 
+ */

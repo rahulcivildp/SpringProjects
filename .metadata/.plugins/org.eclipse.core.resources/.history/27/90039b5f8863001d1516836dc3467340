@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	<div th:fragment="product_description" th:remove="tag">
+		<div>
+			<label>Short Description: </label><br>
+			<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')" >
+				<textarea rows="5" class="form-control mt-1" th:field="*{shortDescription}" required ></textarea>
+			</th:block>
+			<th:block sec:authorize="hasAuthority('Salesperson')" >
+				<div th:utext="${product.shortDescription}" class="border p-2 m-2 rounded-2 disabledDiv"></div>
+			</th:block>
+		</div>
+		<br>
+		<div>
+			<label>Full Description: </label><br>
+			<textarea rows="10" class="form-control mt-1" th:field="*{fullDescription}" required th:disabled="${#authorization.expression('hasAuthority(''Salesperson'')')}"></textarea>
+		</div>
+	</div>
+</body>
+</html>

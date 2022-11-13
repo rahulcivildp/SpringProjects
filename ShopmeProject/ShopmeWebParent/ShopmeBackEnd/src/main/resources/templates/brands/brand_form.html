@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')"></head>
 <body>
 
 	<div class="container-fluid">
@@ -25,7 +25,7 @@
 					<label class="col-sm-4 col-form-label">Brand logo:</label>
 					<div class="col-sm-8">
 						<input type="hidden" th:field="*{logo}">
-						<input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg" class="mb-2" required/>
+						<input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg" class="mb-2"/>
 						<div class="m-2">
 							<img class="img-thumbnail img-fluid" id="thumbnail" th:src="@{${brand.photosImagePath}}" alt="Image Preview" style="max-width: 25% !important;"/>
 						</div>

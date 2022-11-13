@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th=http://www.thymeleaf.org>
-<head th:fragment="page_head(title)">
+<head th:fragment="page_head(title, remove)" th:remove="${remove}">
 	<link rel="icon" th:href="@{${SITE_LOGO}}" type="image/png">
 	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
@@ -15,74 +15,85 @@
 	
 </head>
 <body>
-	<!-- Column header with sort method for Users-->
-	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-		<a class="styleLink text-white" th:href="@{'/users/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSort} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${columnLabel}]]</a>
+	<!-- Column header with sort method -->
+	<th th:fragment="column_link(property, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+		<a class="styleLink text-white" th:href="@{'/' + ${property} + '/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSort} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]</a>
 	 	<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fa fa-duotone fa-sort-up' : 'fa fa-duotone fa-sort-down'} "></span>
 	</th>
 	
-	<!-- Column header with sort method for Brands-->
-	<th th:fragment="column_link_brand(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-		<a class="styleLink text-white" th:href="@{'/brands/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSort} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${columnLabel}]]</a>
-	 	<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fa fa-duotone fa-sort-up' : 'fa fa-duotone fa-sort-down'} "></span>
-	</th>
-	
-	<!-- Column header with sort method for Categories-->
-	<th th:fragment="column_link_category(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
-		<a class="styleLink text-white" th:href="@{'/categories/page/' + ${currentPage} + '?sortField='+ ${fieldName} +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSort} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${columnLabel}]]</a>
-	 	<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fa fa-duotone fa-sort-up' : 'fa fa-duotone fa-sort-down'} "></span>
-	</th>
-	
-	<!-- setting page link for pagination in users page. -->
-	<a th:fragment="page_Link(pageNum, pageLabel)" class="page-link" th:href="@{'/users/page/' + ${pageNum} + '?sortField='+ ${sortField} +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''	}}">[[${pageLabel}]]</a>
-	
-	<!-- setting page link for pagination in categories page. -->
-	<a th:fragment="page_Link_category(pageNum, pageLabel)" class="page-link" th:href="@{'/categories/page/' + ${pageNum} + '?sortField='+ ${sortField} +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''	}}">[[${pageLabel}]]</a>
-	
-	<!-- user photo tag -->
-	<div th:fragment="user_photos" th:remove="tag">
-		<i th:if="${user.photos == null}" class="fa fa-image-portrait fa-3x icon-silver"></i>
-		<img th:if="${user.photos != null}" alt="User thumbnail" th:src="@{${user.photosImagePath}}" width="135" height="150"/>
+	<!-- Search option in List page -->
+	<div th:fragment="search(propertyLink)">
+		<form th:action="@{${propertyLink}}" class="form-inline" style="width: auto;">
+			<div class="row" style="padding-right: 10px;">
+				<div class="col-12 col-sm-8 col-md-7 col-lg-10 margin-padding-none">
+					<input type="hidden" name="sortField" th:value="${sortField}"> 
+					<input type="hidden" name="sortDir" th:value="${sortDir}"> 
+						<input type="search" th:value="${keyword}" class="form-control width-auto float-right" name="keyword" required="required">
+						<h4 class="hideable-column media-hide width-auto float-right">Search: &nbsp;</h4>
+					&nbsp;&nbsp;
+				</div>
+				<div class="col-12 col-sm-4 col-md-5 col-lg-2 margin-padding-none">
+					<button type="button" class="btn btn-secondary width-auto float-right margin-both_side" onclick="clearFilter()" title="Clear field!">
+						<i class="fa fa-regular fa-delete-left"></i>
+					</button>
+					<button type="submit" class="btn btn-primary width-auto float-right margin-both_side" title="Search">
+						<i class="fa fa-duotone fa-magnifying-glass"></i>
+					</button>
+				</div>
+			</div>
+		</form>	
+	</div>
+					
+	<!-- setting page link for pagination. -->
+	<div th:fragment="pagination(property)" th:remove="tag"> 
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center flex-wrap">
+		  	<li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a th:replace="fragments :: page_Link(${property}, 1, 'First')">First</a></li>
+		    <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a th:replace="fragments :: page_Link(${property}, ${currentPage - 1}, 'Previous')">Previous</a></li>
+		    
+		    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}"><a th:replace="fragments :: page_Link(${property}, ${i}, ${i})"></a></li>
+		    
+		    <li th:class="${currentPage == totalPages ? 'page-item disabled': 'page-item'}"><a th:replace="fragments :: page_Link(${property}, ${currentPage + 1}, 'Next')" ></a></li>
+		    <li th:class="${currentPage == totalPages ? 'page-item disabled': 'page-item'}"><a th:replace="fragments :: page_Link(${property}, ${totalPages}, 'Last')"></a></li>
+		  </ul>
+		</nav>
 	</div>
 	
-	<!-- user enable / disable -->
-	<div th:fragment="user_enabled" th:remove="tag">
-		<a th:if="${user.enabled == true}" class="fa-solid fa-circle-check fa-2x icon-green styleLink" title="Deactivate" th:href="@{'/users/' + ${user.id} + '/enabled/false'}"></a>
-		<a th:if="${user.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark styleLink" title="Activate" th:href="@{'/users/' + ${user.id} + '/enabled/true'}"></a>
+	<a th:fragment="page_Link(property, pageNum, pageLabel)" class="page-link" th:href="@{'/' + ${property} + '/page/' + ${pageNum} + '?sortField='+ ${sortField} +'&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${pageLabel}]]</a>
+	
+	
+	<!-- Photo tag -->
+	<div th:fragment="photos(property, imagePath, width, height)" th:remove="tag">
+		<i th:if="${property == null}" class="fa fa-image-portrait fa-3x icon-silver"></i>
+		<img th:if="${property != null}" alt="User thumbnail" th:src="@{${imagePath}}" th:width="${width}" th:height="${height}"/>
 	</div>
 	
-	<!-- category enable / disable -->
-	<div th:fragment="category_enabled" th:remove="tag" >
-		<a th:if="${category.enabled == true}" class="fa-solid fa-circle-check fa-2x icon-green styleLink" title="Deactivate" th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"></a>
-		<a th:if="${category.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark styleLink" title="Activate" th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"></a>
+	<!-- Property enable / disable -->
+	<div th:fragment="enabled(propertyEnabled, propertyId, property)" th:remove="tag">
+		<a th:if="${propertyEnabled == true}" class="fa-solid fa-circle-check fa-2x icon-green styleLink" title="Deactivate" th:href="@{'/' + ${property} + '/' + ${propertyId} + '/enabled/false'}"></a>
+		<a th:if="${propertyEnabled == false}" class="fa-solid fa-circle fa-2x icon-dark styleLink" title="Activate" th:href="@{'/' + ${property} + '/' + ${propertyId} + '/enabled/true'}"></a>
 	</div>
 	
-	<!-- brand enable / disable -->
-	<div th:fragment="brand_enabled" th:remove="tag">
-		<a th:if="${brand.enabled == true}" class="fa-solid fa-circle-check fa-2x icon-green styleLink" title="Deactivate" th:href="@{'/brands/' + ${brand.id} + '/enabled/false'}"></a>
-		<a th:if="${brand.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark styleLink" title="Activate" th:href="@{'/brands/' + ${brand.id} + '/enabled/true'}"></a>
+	<!-- edit button -->
+	<div th:fragment="edit(property, propertyId)" th:remove="tag">
+		<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit" th:href="@{'/' + ${property} + '/edit/' + ${propertyId}}"></a>
 	</div>
 	
-	<!-- edit and delete button for user -->
-	<div th:fragment="user_edit&delete" th:remove="tag">
-		<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit this user" th:href="@{'/users/edit/' + ${user.id}}"></a>
-		&nbsp; 
-		<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete this user" th:userId="${user.id}" th:href="@{'/users/delete/' + ${user.id}}" 
+	<!-- delete button -->
+	<div th:fragment="delete(property, propertyId)" th:remove="tag">
+		<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete" th:userId="${propertyId}" th:href="@{'/' + ${property} + '/delete/' + ${propertyId}}" 
 		data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" ></a>
 	</div>
 	
-	<!-- edit and delete button for brand -->
-	<div th:fragment="brand_edit&delete" th:remove="tag">
-		<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit this user" th:href="@{'/brands/edit/' + ${brand.id}}"></a>
-		&nbsp; 
-		<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete this user" th:userId="${brand.id}" th:href="@{'/brands/delete/' + ${brand.id}}" 
-		data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" ></a>
+	<!-- View details button -->
+	<div th:fragment="viewDetails(property, propertyId)" th:remove="tag">
+		<a class="fa-solid fa-file-alt fa-2x icon-green styleLink link-detail" title="View details" th:href="@{'/' + ${property} + '/detail/' + ${propertyId}}" ></a>
 	</div>
 	
 							
 	<!-- Footer section -->
 	<div th:fragment="footer" class="text-center">
-			<p>[[${COPYRIGHT}]]</p>
+			<p>Shopme Control Panel - Copyright © Shopme</p>
 			<script type="text/javascript" th:src="@{/js/common.js}"></script>
 	</div>
 </body>

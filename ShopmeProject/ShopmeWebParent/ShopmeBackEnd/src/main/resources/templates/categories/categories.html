@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="fragments :: page_head('Shopme Admin User page')"></head>
+<head th:replace="fragments :: page_head('Shopme Admin User page', 'none')"></head>
 <body>
 
 
@@ -20,7 +20,7 @@
 		</div>
 		
 		<div>
-			<h1>Manage Users</h1>
+			<h1 class="text-center m-2">Manage Categories</h1>
 			<div class="row" style="margin: 8px 0;">
 				<div class="col-12 col-sm-1 col-md-1 ">
 					<a th:href="@{/categories/new}" class="fa fa-solid fa-folder-plus fa-2x styleLink styleLinkButton "  title="Create new category"></a>
@@ -29,26 +29,7 @@
 					
 				</div>
 				<div class="col-12 col-sm-6 col-md-6 ">
-				
-					<form th:action="@{/categories/page/1}" class="form-inline" style="width: auto;">
-						<div class="row" style="padding-right: 10px;">
-							<div class="col-12 col-sm-8 col-md-7 col-lg-10 margin-padding-none">
-								<input type="hidden" name="sortField" th:value="${sortField}"> 
-								<input type="hidden" name="sortDir" th:value="${sortDir}"> 
-									<input type="search" th:value="${keyword}" class="form-control width-auto float-right" name="keyword" required="required">
-									<h4 class="hideable-column media-hide width-auto float-right">Search: &nbsp;</h4>
-								&nbsp;&nbsp;
-							</div>
-							<div class="col-12 col-sm-4 col-md-5 col-lg-2 margin-padding-none">
-								<button type="button" class="btn btn-secondary width-auto float-right margin-both_side" onclick="clearFilter()" title="Clear field!">
-									<i class="fa fa-regular fa-delete-left"></i>
-								</button>
-								<button type="submit" class="btn btn-primary width-auto float-right margin-both_side" title="Search">
-									<i class="fa fa-duotone fa-magnifying-glass"></i>
-								</button>
-							</div>
-						</div>
-					</form>	
+					<div th:replace="fragments :: search('/categories/page/1')" ></div>
 				</div>
 			
 			</div>
@@ -58,14 +39,14 @@
 				<thead class="table-dark">
 					<tr>
 						<th class="hideable-column">
-							<th th:replace="fragments :: column_link_category('id','No.', 'tag')" />
+							<th th:replace="fragments :: column_link('categories', 'id','No.', 'tag')" />
 						</th>
 						<th>Photos</th>
 						<th class="hideable-column">
-							<th th:replace="fragments :: column_link_category('name','Name', 'tag')" />
+							<th th:replace="fragments :: column_link('categories', 'name','Name', 'tag')" />
 						</th>
-						<th th:replace="fragments :: column_link_category('alias','Alias', 'none')" />
-						<th th:replace="fragments :: column_link_category('enabled','Enabled', 'none')"></th>
+						<th th:replace="fragments :: column_link('categories', 'alias','Alias', 'none')" />
+						<th th:replace="fragments :: column_link('categories', 'enabled','Enabled', 'none')"></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -73,20 +54,18 @@
 					<tr th:each="category : ${listCategories}">
 						<td class="hideable-column">[[${category.id}]]</td>
 						<td >
-							<i th:if="${category.image == null}" class="fa fa-image-portrait fa-3x icon-silver"></i>
-							<img th:if="${category.image != null}" alt="User thumbnail" th:src="@{${category.photosImagePath}}" width="135" height="150"/>
+							<div th:replace="fragments :: photos(${category.image}, ${category.photosImagePath}, 135, 150)"></div>
 						</td>
 						
 						<td class="hideable-column">[[${category.name}]]</td>
 						<td>[[${category.alias}]]</td>
 						<td>
-							<div th:replace="fragments :: category_enabled"></div>
+							<div th:replace="fragments :: enabled(${category.enabled}, ${category.id}, 'categories')"></div>
 						</td>
 						<td>
-							<a class="fa-solid fa-pen-to-square fa-2x icon-green styleLink" title="Edit this user" th:href="@{'/categories/edit/' + ${category.id}}"></a>
-							&nbsp; 
-							<a class="fa-solid fa-trash fa-2x icon-dark styleLink link-delete" title="Delete this user" th:userId="${category.id}" th:href="@{'/categories/delete/' + ${category.id}}" 
-							data-bs-target="#deleteConfirmModal" data-bs-toggle="modal" ></a>
+							<div th:replace="fragments :: edit('categories', ${category.id})"></div>
+							&nbsp;
+							<div th:replace="fragments :: delete('categories', ${category.id})"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -98,7 +77,7 @@
 				<div class="col-7 mt-2">
 					<div>[[${category.name}]]</div>
 					<div>[[${category.alias}]]</div>
-					
+					<div th:replace="fragments :: enabled(${category.enabled}, ${category.id}, 'categories')"></div>
 				</div>
 			</div>
 		</div>
@@ -110,17 +89,7 @@
 		</div>
 		
 		<div th:if="${totalItems > 1}">
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination justify-content-center flex-wrap">
-			  	<li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a th:replace="fragments :: page_Link_category(1, 'First')"></a></li>
-			    <li th:class="${currentPage > 1 ? 'page-item': 'page-item disabled'}"><a th:replace="fragments :: page_Link_category(${currentPage - 1}, 'Previous')"></a></li>
-			    
-			    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}"><a th:replace="fragments :: page_Link_category(${i}, ${i})"></a></li>
-			    
-			    <li th:class="${currentPage == totalPages ? 'page-item disabled': 'page-item'}"><a th:replace="fragments :: page_Link_category(${currentPage + 1}, 'Next')" ></a></li>
-			    <li th:class="${currentPage == totalPages ? 'page-item disabled': 'page-item'}"><a th:replace="fragments :: page_Link_category(${totalPages}, 'Last')"></a></li>
-			  </ul>
-			</nav>
+			<div th:replace="fragments :: pagination('categories')"></div>
 		</div>
 		
 

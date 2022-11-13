@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	<div th:fragment="product_shipping" th:remove="tag">
+		<div class="form-group row">
+			The following information is important to calculate shipping for the product.<br>
+			The dimensions (L X W X H) is for the box that is used to package the product.(Product dimensions are not included.)
+			
+		</div>
+</body>
+</html>

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @SpringBootApplication
 public class FileUploadUtil {
 	
-	public static final Logger LOGGER = LoggerFactory.getLogger(FileUploadUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadUtil.class);
 
 	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 		Path uploadPath = Paths.get(uploadDir);
@@ -51,4 +51,5 @@ public class FileUploadUtil {
 			//System.out.println("Could not save list directory: " + dirPath);
 		}
 	}
+
 }

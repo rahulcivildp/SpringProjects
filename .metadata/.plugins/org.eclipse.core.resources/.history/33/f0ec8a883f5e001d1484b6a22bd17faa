@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+	<div th:fragment="product_details" th:remove="tag">
+		
+	</div>
+</body>
+</html>

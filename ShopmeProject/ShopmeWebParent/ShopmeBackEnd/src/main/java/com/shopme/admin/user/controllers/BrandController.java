@@ -114,15 +114,22 @@ public class BrandController {
 	
 	@PostMapping("/brands/save")
 	public String saveCategory(Brand brand, RedirectAttributes redirectAttributes, @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		brand.setLogo(fileName);
-		Brand savedCategory = brandService.saveBrand(brand);
-		String uploadDir = "../brand-logos/" + savedCategory.getId();
 		
-		FileUploadUtil.cleanDir(uploadDir);
-		FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-	
-		brandService.saveBrand(brand);
+		if (!multipartFile.isEmpty()) {
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			brand.setLogo(fileName);
+			Brand savedCategory = brandService.saveBrand(brand);
+			String uploadDir = "../brand-logos/" + savedCategory.getId();
+			
+			FileUploadUtil.cleanDir(uploadDir);
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		}else {
+			if(brand.getLogo().isEmpty()) {
+				brand.setLogo(null);
+			}
+			brandService.saveBrand(brand);
+		}
+		
 		
 		redirectAttributes.addFlashAttribute("message", "The brand item has been saved sucessfully.");
 		return getRedirectURLtoAffectedCategory(brand);

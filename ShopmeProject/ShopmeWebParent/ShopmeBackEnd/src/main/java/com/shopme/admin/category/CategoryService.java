@@ -125,6 +125,19 @@ public class CategoryService {
 	}
 
 	public Category saveCategory(Category category) {
+		Category categoryInDB = categoryRepo.findById(category.getId()).get();
+		Category parent = category.getParent();
+		
+		if (parent != null) {
+			String allParentIds = parent.getAllParentIDs() == null ? "-" : parent.getAllParentIDs();
+			allParentIds += String.valueOf(parent.getId()) + "-";
+			category.setAllParentIDs(allParentIds);
+		}
+		
+		if (category.getImage() != null) {
+			categoryInDB.setImage(category.getImage());
+		}
+		
 		return categoryRepo.save(category);
 	}
 

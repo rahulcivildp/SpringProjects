@@ -82,6 +82,12 @@
 			<artifactId>ShopmeCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.tunyk.currencyconverter/currency-converter-api -->
+		<dependency>
+		    <groupId>com.tunyk.currencyconverter</groupId>
+		    <artifactId>currency-converter-api</artifactId>
+		    <version>1.0</version>
+		</dependency>
 	</dependencies>
 
 

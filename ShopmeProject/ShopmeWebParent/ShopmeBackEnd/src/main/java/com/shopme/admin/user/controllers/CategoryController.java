@@ -39,7 +39,7 @@ public class CategoryController {
 		System.out.println("Sort Order: " + sortDir);
 		Page<Category> pageCategory = service.listByPage(pageNum, sortField, sortDir, keyword);
 		
-		List<Category> listCategoriesInTable = service.listAllHierarchicalCategories();
+		List<Category> listCategoriesInTable = service.listCategoriesUsedInForm();
 		List<Category> listCategories = pageCategory.getContent();
 		
 		long startCount = (pageNum - 1) * CategoryService.ITEMS_PER_PAGE + 1;
@@ -89,15 +89,22 @@ public class CategoryController {
 	
 	@PostMapping("/categories/save")
 	public String saveCategory(Category category, RedirectAttributes redirectAttributes, @RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		category.setImage(fileName);
-		Category savedCategory = service.saveCategory(category);
-		String uploadDir = "../category-photos/" + savedCategory.getId();
-		
-		FileUploadUtil.cleanDir(uploadDir);
-		FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-	
 		service.saveCategory(category);
+		if (!multipartFile.isEmpty()) {
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			category.setImage(fileName);
+			Category savedCategory = service.saveCategory(category);
+			String uploadDir = "../category-photos/" + savedCategory.getId();
+			
+			FileUploadUtil.cleanDir(uploadDir);
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		} else {
+			if(category.getImage().isEmpty()) {
+				category.setImage(null);
+			}
+			service.saveCategory(category);
+		}
+		
 		
 		redirectAttributes.addFlashAttribute("message", "The user has been saved sucessfully.");
 		return getRedirectURLtoAffectedCategory(category);
@@ -112,11 +119,11 @@ public class CategoryController {
 	public String editUser(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			Category category = service.updateCategory(id);
-			//List<Role> listRoles = service.listRoles();
+			List<Category> listCategories = service.listCategoriesUsedInForm();
 			
 			model.addAttribute("category", category);
 			model.addAttribute("pageTitle", "Edit Category: ID - " + id);
-			//model.addAttribute("listRoles", listRoles);
+			model.addAttribute("listCategories", listCategories);
 			
 			return "categories/category_form";
 		} catch (UserNotFoundException e) {
