@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testListEnabledCategories()" project="ShopmeFrontEnd" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.shopme.categoryTest.CategoryRepositoryTest" time="0.281" displayname="CategoryRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.shopme.categoryTest.CategoryRepositoryTest]">
+    <testcase name="testListEnabledCategories" classname="com.shopme.categoryTest.CategoryRepositoryTest" time="0.281" displayname="testListEnabledCategories()" uniqueid="[engine:junit-jupiter]/[class:com.shopme.categoryTest.CategoryRepositoryTest]/[method:testListEnabledCategories()]"/>
+  </testsuite>
+</testrun>

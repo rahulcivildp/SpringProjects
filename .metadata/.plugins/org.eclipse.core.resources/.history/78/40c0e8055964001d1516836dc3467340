@@ -1,0 +1,45 @@
+package com.shopme.site;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.shopme.category.CategoryRepository;
+import com.shopme.category.CategoryService;
+import com.shopme.common.entity.Category;
+
+@Controller
+@ComponentScan({"com.shopme.common.entity", "com.shopme", "com.shopme.category.CategoryRepository"})
+public class MainController {
+
+	/*@Autowired
+	private CategoryService categoryService;
+	*/
+	@Autowired
+	private CategoryRepository categoryRepo;
+	
+	@GetMapping("/")
+	public String viewHomePage(Model model) {
+		List<Category> listCategories = categoryRepo.findAllCategories();
+		
+		model.addAttribute("listCategories", listCategories);
+		return "index";
+	}
+	
+	@GetMapping("/login")
+	public String viewLoginPage() {
+		Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			return "login";
+		}
+		return "redirect:/";
+	}
+}

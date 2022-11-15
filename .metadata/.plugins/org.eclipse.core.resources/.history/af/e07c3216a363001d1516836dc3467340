@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Welcome to Shopeme home page', 'none')"></head>
+<body>
+	<h1>Welcome to Shopping page</h1>
+</body>
+</html>

@@ -285,4 +285,12 @@ public class Product {
 		}
 		return false;
 	}
+	
+	@Transient
+	public float getDiscountPrice() {
+		if(discountPercentage > 0) {
+			return price * ((100 - discountPercentage) / 100);
+		}
+		return this.price;
+	}
 }

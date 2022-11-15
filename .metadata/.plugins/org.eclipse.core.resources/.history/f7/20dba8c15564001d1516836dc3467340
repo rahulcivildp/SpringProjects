@@ -1,0 +1,34 @@
+package com.shopme.category;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.shopme.common.entity.Category;
+
+@Service
+@Transactional
+public class CategoryService {
+
+	@Autowired
+	private CategoryRepository categoryRepo;
+	
+	public List<Category> listNoChildrenCategories() {
+		List<Category> noChildrenCategories = new ArrayList<>();
+		List<Category> listEnabledCategories =  categoryRepo.findAllCategories();
+		
+		listEnabledCategories.forEach(category -> {
+			Set<Category> children = category.getChildren();
+			if (children == null || children.size() == 0) {
+				noChildrenCategories.add(category);
+			}
+		});
+		
+		return noChildrenCategories;
+	}
+}

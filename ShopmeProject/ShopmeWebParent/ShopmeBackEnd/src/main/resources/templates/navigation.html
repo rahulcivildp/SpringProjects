@@ -25,7 +25,7 @@
 							<th:block sec:authorize="hasAuthority('Admin')">
 								<li class="dropdowns">
 								<input type="hidden" id="effectType" value="Drop">
-								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdown" aria-expanded="false">Users</a>
+								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdowns" aria-expanded="false">Users</a>
 								  <ul class="dropdown-menu">
 								    <li><a th:href="@{/users/new}" class="dropdown-item" title="Create new product">Create New</a></li>
 								    <li><a class="dropdown-item" th:href="@{/users}">View All</a></li>
@@ -35,7 +35,7 @@
 							<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 								<li class="dropdowns ">
 								<input type="hidden" id="effectType" value="Drop">
-								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdowns" aria-expanded="false">Categories</a>
 								  <ul class="dropdown-menu">
 								    <li><a th:href="@{/categories/new}" class="dropdown-item" title="Create new product">Create New</a></li>
 								    <li><a class="dropdown-item" th:href="@{/categories}">View All</a></li>
@@ -45,7 +45,7 @@
 							<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 								<li class="dropdowns ">
 									<input type="hidden" id="effectType" value="Drop">
-								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdown" aria-expanded="false">Brands</a>
+								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdowns" aria-expanded="false">Brands</a>
 								  <ul class="dropdown-menu">
 								    <li><a th:href="@{/products/new}" class="dropdown-item" title="Create new product">Create New</a></li>
 								    <li><a class="dropdown-item" th:href="@{/brands}">View All</a></li>
@@ -55,7 +55,7 @@
 							<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson', 'Shipper')">
 								<li class="dropdowns ">
 								<input type="hidden" id="effectType" value="Drop">
-								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+								  <a class="nav-link dropdown-toggle " type="button" id="toggleButtonDropdown" data-bs-toggle="dropdowns" aria-expanded="false">Products</a>
 								  <ul class="dropdown-menu">
 								    <li><a th:href="@{/products/new}" class="dropdown-item" title="Create new product" th:hidden="${#authorization.expression('hasAuthority(''Salesperson'')')}">Create New</a></li>
 								    <li><a class="dropdown-item" th:href="@{/products}" >View All</a></li>
