@@ -19,9 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.brand.BrandService;
 import com.shopme.admin.category.CategoryService;
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.BrandNotFoundException;
 
 @Controller
 public class BrandController {
@@ -106,7 +106,7 @@ public class BrandController {
 			model.addAttribute("listCategories", listCategories);
 			
 			return "brands/brand_form";
-		} catch (UserNotFoundException e) {
+		} catch (BrandNotFoundException e) {
 			redirectAttributes.addFlashAttribute("alert", e.getMessage());
 			return "redirect:/brands";
 		}
@@ -145,7 +145,7 @@ public class BrandController {
 		try {
 			brandService.deleteUser(id);
 			redirectAttributes.addFlashAttribute("warning", "User ID: " + id + " is deleted successfully.");
-		} catch (UserNotFoundException e) {
+		} catch (BrandNotFoundException e) {
 			redirectAttributes.addFlashAttribute("warning", e.getMessage());
 		}
 		return "redirect:/brands";

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 
 @Service
 public class CategoryService {
@@ -29,8 +30,13 @@ public class CategoryService {
 		return noChildrenCategories;
 	}
 	
-	public Category getCategory(String alias) {
-		return categoryRepo.findByAliasEnabled(alias);
+	public Category getCategory(String alias) throws CategoryNotFoundException {
+		Category category = categoryRepo.findByAliasEnabled(alias);
+		if(category == null) {
+			throw new CategoryNotFoundException("Category not found!!");
+		}
+		
+		return category;
 	}
 	
 	public List<Category> getCategoryParents(Category child) {

@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.shopme.admin.brand.BrandRepositoy;
 import com.shopme.admin.category.CategoryRepository;
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
+import com.shopme.common.exception.ProductNotFoundException;
+import com.shopme.common.exception.UserNotFoundException;
 
 @Service
 @Transactional
@@ -84,18 +85,13 @@ public class ProductService {
 	}
 
 	public Product saveProduct(Product product) {
-
-		Product productInDB = productRepo.findById(product.getId()).get();
+		
 		boolean isUpdatingUser = (product.getId() != 0);
 		
 		if(isUpdatingUser) {
 			product.setCreatedTime(new Date());
 		}
-		
-		if(product.getMainImage() != null) {
-			productInDB.setMainImage(product.getMainImage());
-		}
-		
+	
 		if(product.getAlias() == null || product.getAlias().isEmpty()) {
 			String setDefault = product.getName().replace(" ", "-");
 			product.setAlias(setDefault);

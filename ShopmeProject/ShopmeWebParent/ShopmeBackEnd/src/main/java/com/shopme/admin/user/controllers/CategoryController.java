@@ -18,8 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.category.CategoryService;
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 
 @Controller
 public class CategoryController {
@@ -126,7 +126,7 @@ public class CategoryController {
 			model.addAttribute("listCategories", listCategories);
 			
 			return "categories/category_form";
-		} catch (UserNotFoundException e) {
+		} catch (CategoryNotFoundException e) {
 			redirectAttributes.addFlashAttribute("alert", e.getMessage());
 			return "redirect:/categories";
 		}
@@ -137,7 +137,7 @@ public class CategoryController {
 		try {
 			service.deleteCategory(id);
 			redirectAttributes.addFlashAttribute("warning", "Category ID: " + id + " is deleted successfully.");
-		} catch (UserNotFoundException e) {
+		} catch (CategoryNotFoundException e) {
 			redirectAttributes.addFlashAttribute("warning", e.getMessage());
 		}
 		return "redirect:/categories";

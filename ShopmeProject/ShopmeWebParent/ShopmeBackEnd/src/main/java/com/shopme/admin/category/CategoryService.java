@@ -14,8 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 
 @Service
 @Transactional
@@ -141,18 +141,18 @@ public class CategoryService {
 		return categoryRepo.save(category);
 	}
 
-	public Category updateCategory(Integer id) throws UserNotFoundException {
+	public Category updateCategory(Integer id) throws CategoryNotFoundException {
 		try {
 			return categoryRepo.findById(id).get();
 		} catch (NoSuchElementException e) {
-			throw new UserNotFoundException("Could not find any user with ID: " + id);
+			throw new CategoryNotFoundException("Could not find any user with ID: " + id);
 		}
 	}
 
-	public void deleteCategory(Integer id) throws UserNotFoundException {
+	public void deleteCategory(Integer id) throws CategoryNotFoundException {
 		Long count = categoryRepo.countById(id);
 		if(count == null || count == 0) {
-			throw new UserNotFoundException("Could not find any user with ID: " + id);
+			throw new CategoryNotFoundException("Could not find any user with ID: " + id);
 		}
 		
 		categoryRepo.deleteById(id);

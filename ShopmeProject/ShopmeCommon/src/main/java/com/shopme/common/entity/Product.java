@@ -273,7 +273,23 @@ public class Product {
 		}
 		return "/product-photos/" + this.id + "/" + this.mainImage;
 	}
-
+	
+	@Transient
+	public String getShortName() {
+		if(name.length() > 70) {
+			return name.substring(0, 70).concat("...");
+		}
+		return name;
+	}
+	
+	@Transient
+	public float getDiscountPrice() {
+		if(discountPercentage > 0) {
+			return price * ((100 - discountPercentage) / 100);
+		}
+		return this.price;
+	}
+	
 	public boolean containsImageName(String imageName) {
 		Iterator<ProductImage> iterator = images.iterator();
 		
@@ -284,13 +300,5 @@ public class Product {
 			}
 		}
 		return false;
-	}
-	
-	@Transient
-	public float getDiscountPrice() {
-		if(discountPercentage > 0) {
-			return price * ((100 - discountPercentage) / 100);
-		}
-		return this.price;
 	}
 }

@@ -1,7 +1,0 @@
-package com.shopme.admin.brand;
-
-import org.springframework.data.repository.CrudRepository;
-
-public interface BrandRepositoy extends CrudRepository<T, ID> {
-
-}

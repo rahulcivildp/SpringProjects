@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="CurrencyRepositoryTests.testListAllSortedByName" project="ShopmeBackEnd" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.shopme.admin.currency.CurrencyRepositoryTests" time="0.346" displayname="CurrencyRepositoryTests" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.currency.CurrencyRepositoryTests]">
-    <testcase name="testListAllSortedByName" classname="com.shopme.admin.currency.CurrencyRepositoryTests" time="0.346" displayname="testListAllSortedByName()" uniqueid="[engine:junit-jupiter]/[class:com.shopme.admin.currency.CurrencyRepositoryTests]/[method:testListAllSortedByName()]"/>
-  </testsuite>
-</testrun>

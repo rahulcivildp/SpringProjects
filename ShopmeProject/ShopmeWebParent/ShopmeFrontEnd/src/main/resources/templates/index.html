@@ -8,10 +8,10 @@
 	<h1>Shopping by Category</h1>
 	
 	<div class="row">
-		<div class="col" th:each="cat : ${listCategories}">
-			<div><img th:src="@{${cat.photosImagePath}}" width="80"></div>
-			<a class="styleLink styleLinkHover" th:href="@{'/c/' + ${cat.alias}}">[[${cat.name}]]</a>
-		</div>
+		<a th:href="@{'/c/' + ${cat.alias}}" class="col-1 styleLinkButton m-2 styleLink styleLinkHover" th:each="cat : ${listCategories}">
+			<img th:src="@{${cat.photosImagePath}}" width="80"/>
+			<h6>[[${cat.name}]]</h6>
+		</a>
 	</div>
 	<div th:replace="navigation :: footer_menu"></div>
 	<div th:replace="fragments :: footer"></div>

@@ -13,9 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shopme.admin.category.CategoryRepository;
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.BrandNotFoundException;
 
 @Service
 @Transactional
@@ -50,11 +50,11 @@ public class BrandService {
 		brandRepo.updateEnableStatus(id, enabled);
 	}
 	
-	public Brand updateBrand(Integer id) throws UserNotFoundException {
+	public Brand updateBrand(Integer id) throws BrandNotFoundException {
 		try {
 			return brandRepo.findById(id).get();
 		} catch (NoSuchElementException e) {
-			throw new UserNotFoundException("Could not find any brand with ID: " + id);
+			throw new BrandNotFoundException("Could not find any brand with ID: " + id);
 		}
 	}
 	
@@ -66,10 +66,10 @@ public class BrandService {
 		return brandRepo.save(brand);
 	}
 	
-	public void deleteUser(Integer id) throws UserNotFoundException {
+	public void deleteUser(Integer id) throws BrandNotFoundException {
 		Long count = brandRepo.countById(id);
 		if(count == null || count == 0) {
-			throw new UserNotFoundException("Could not find any brand with ID: " + id);
+			throw new BrandNotFoundException("Could not find any brand with ID: " + id);
 		}
 		
 		brandRepo.deleteById(id);

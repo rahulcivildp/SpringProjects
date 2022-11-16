@@ -19,13 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
-import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
 import com.shopme.admin.user.export.UserCSVExporter;
 import com.shopme.admin.user.export.UserExcelExporter;
 import com.shopme.admin.user.export.UserPDFExporter;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import com.shopme.common.exception.UserNotFoundException;
 
 @Controller
 public class UserController {

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+	<div th:fragment="breadcrumbs" th:remove="tag">
+		<div th:if="${categoryParentsList != null && !categoryParentsList.empty}">
+				<div class="row">
+					<div class="col">
+						<br>
+						<nav>
+							<ol class="breadcrumb">
+								
+								<li class="breadcrumb-item">
+									<a th:href="@{/}">Home</a>
+								</li>
+								<th:block th:each="parent : ${categoryParentsList}">
+									<li class="breadcrumb-item">
+										<a th:href="@{'/c/' + ${parent.alias}}">[[${parent.name}]]</a>
+									</li>
+								</th:block>
+								<li class="breadcrumb-item" th:if="${parent == null}">
+									<span>[[${product.shortName}]]</span>
+								</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

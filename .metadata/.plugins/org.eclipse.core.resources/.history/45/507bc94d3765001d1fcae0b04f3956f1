@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${page_title}, 'none')"></head>
+<body>
+
+	<div th:replace="navigation :: header_menu"></div>
+	<div th:replace="products/breadcrumbs :: breadcrumbs"></div>
+	
+	<div class="row">
+		<div class="col-sm-3">
+			<div>
+				<img alt="" th:src="@{${product.mainImagePath}}" class="img-fluid">
+			</div>
+			<div class="row justify-content-center">
+				<div class="" style="width: auto; padding: 0;">
+					<img alt="" th:src="@{${product.mainImagePath}}" height="40">
+				</div>
+				<th:block th:each="image : ${product.images}">
+					<div class="" style="width: auto; padding: 0;">
+						<img alt="" th:src="@{${image.extraImagePath}}" height="40">
+					</div>
+				</th:block>
+			</div>
+		</div>
+		<div class="col-sm">
+			<div class="col-sm">
+				<div>
+					<h2 th:utext="${product.name}"></h2>
+				</div>
+			</div>
+			<hr>
+			<div class="col-sm">
+				<div>
+					<p th:utext="${product.shortDescription}"></p>
+				</div>
+			</div>
+			<div class="col-sm">
+				<span>Brand: [[${product.brands.name}]]</span>
+				<br>
+				<span th:if="${product.discountPercentage <= 0}">Price: $[[${product.price}]]</span>
+				Price: <del th:if="${product.discountPercentage > 0}" style="color: red;" >$[[${product.price}]]</del>
+				<br>
+				<span th:if="${product.discountPercentage > 0}">Offer price: <b>$[[${product.discountPrice}]]</b><small> ($[[${product.discountPercentage}]] % off)</small></span>
+			</div>
+			<br>
+			<div class="col-sm">
+				<div class="row">
+					<div class="col-12">
+						<div>
+							<h3>Product Description</h3>
+							<p th:utext="${product.fullDescription}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="col-sm">
+				<div class="row">
+					<div class="col-8">
+						<div>
+							<h3>Product Details</h3>
+						</div>
+						<table class="table table-striped table-bordered table-hover">
+							<tbody>
+								<tr th:each="details : ${product.details}">
+									<td width="25%">[[${details.name}]]</td>
+									<td>[[${details.value}]]</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div>
+				<span th:if="${product.inStock}" class="text-success"><b>In Stock</b></span>
+				<span th:if="${!product.inStock}" class="text-danger"><b>Out of Stock</b></span>
+			</div>
+			<br>
+			<div>
+				<input type="number" size="5" class="form-control" value="1" style="width: 50% !important;" min="1"/>
+			</div>
+			<div>
+				<input type="button" class="btn btn-primary mt-2" value="Add to Cart"/>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div th:replace="navigation :: footer_menu"></div>
+	<div th:replace="fragments :: footer"></div>
+</body>
+</html>
